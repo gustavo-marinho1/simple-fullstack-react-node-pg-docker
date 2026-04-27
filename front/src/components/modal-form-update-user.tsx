@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { findUserById, updateUser, type UpdateUser } from "../services/users";
 import { X } from "lucide-react";
+import { Modal } from "./modal";
 
 interface Props {
   id: string;
@@ -68,11 +69,8 @@ export const ModalFormUpdateUser = ({ id, isOpen, setOpen, onUpdate }: Props) =>
   if (!isOpen) return <></>;
 
   return (
-    <div className="fixed w-full h-full flex justify-center items-center z-50">
-
-      <div className="fixed w-full h-full bg-white opacity-50" />
-
-      <form className="flex flex-col gap-2 z-100 bg-white p-4 border rounded-lg" onSubmit={(e) => {
+    <Modal isOpen={isOpen}>
+      <form className="flex flex-col gap-2" onSubmit={(e) => {
         e.preventDefault();
         submit();
       }}>
@@ -102,7 +100,6 @@ export const ModalFormUpdateUser = ({ id, isOpen, setOpen, onUpdate }: Props) =>
           {isLoading ? "Loading..." : "Add"}
         </button>
       </form>
-
-    </div>
+    </Modal>
   )
 }
