@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import { findUsers, type User, deleteUser } from './services/users';
+import { findUsers, type User } from './services/users';
 import { FormRegisterUser } from './components/form-register-user';
 import { UsersList } from './components/users-list';
 import { ModalFormUpdateUser } from './components/modal-form-update-user';
+import { ModalDeleteUser } from './components/modal-delete-user';
 
 function App() {
   const [listUsers, setListUsers] = useState<User[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [editUserId, setEditUserId] = useState("");
+  const [modalDelOpen, setModalDelOpen] = useState(false);
+  const [delUserId, setDelUserId] = useState("");
 
   useEffect(() => {
     getUsers();
@@ -28,13 +31,9 @@ function App() {
     setModalOpen(true);
   }
 
-  async function handleDelete(id: string) {
-    try {
-      await deleteUser(id);
-      getUsers();
-    } catch (error: any) {
-      alert(error.message);
-    }
+  function handleDelete(id: string) {
+    setDelUserId(id);
+    setModalDelOpen(true);
   }
 
   return (
@@ -52,6 +51,8 @@ function App() {
       </section>
 
       <ModalFormUpdateUser id={editUserId} isOpen={modalOpen} setOpen={setModalOpen} onUpdate={getUsers} />
+
+      <ModalDeleteUser id={delUserId} isOpen={modalDelOpen} setOpen={setModalDelOpen} onUpdate={getUsers} />
 
     </main>
   )
